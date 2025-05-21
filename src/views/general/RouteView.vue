@@ -1,7 +1,5 @@
 <template>
-    <main>
-      About Page
-    </main>
+    <main>Route Page</main>
   </template>
   
   <script setup></script>

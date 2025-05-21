@@ -1,7 +1,5 @@
 <template>
-  <main class="bg-red-200">
-    Home Page
-  </main>
+  <main class="bg-red-200">Home Page</main>
 </template>
 
 <script setup></script>
