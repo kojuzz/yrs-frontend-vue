@@ -1,7 +1,6 @@
 <template>
     <main>Station Page</main>
-  </template>
-  
-  <script setup></script>
-  
-  <style scoped></style>
+</template>
+
+<script setup></script>
+<style scoped></style>

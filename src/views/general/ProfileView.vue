@@ -1,7 +1,6 @@
 <template>
     <main>Profile Page</main>
-  </template>
+</template>
   
-  <script setup></script>
-  
-  <style scoped></style>
+<script setup></script>
+<style scoped></style>
