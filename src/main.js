@@ -16,6 +16,6 @@ app.use(Tabbar);
 app.use(TabbarItem);
 app.use(NavBar);
 
-app.use(router)
+app.use(router);
 
 app.mount('#app')

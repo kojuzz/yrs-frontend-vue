@@ -1,4 +1,5 @@
 <template>
+    <van-nav-bar title="Station" :fixed="true" />
     <main>Station Page</main>
 </template>
 
