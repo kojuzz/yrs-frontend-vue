@@ -19,7 +19,7 @@ export const useStationStore = defineStore("stationStore", {
         async get(queryParameters) {
             try {
                 let response = await userPortalAxiosInstance.get(`station`, { params: queryParameters });                
-                console.log(response);
+                // console.log(response);
 
                 this.response = response.data ?? null;
                 this.error = null;
