@@ -2,7 +2,7 @@ import axios from "axios";
 import { Notify } from "vant";
 
 const userPortalAxiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: import.meta.env.VITE_API_END_POINT,
     headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
@@ -50,3 +50,5 @@ userPortalAxiosInstance.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+export default userPortalAxiosInstance;

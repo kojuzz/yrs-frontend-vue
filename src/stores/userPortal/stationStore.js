@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import userPortalAxiosInstance from '@/stores/userPortal/userPortalAxiosInstance'
+import userPortalAxiosInstance from '@/userPortalAxiosInstance'
 
 export const useStationStore = defineStore("stationStore", {
     state: () => ({ 
@@ -16,10 +16,10 @@ export const useStationStore = defineStore("stationStore", {
         getErrors: (state) => state.errors,
     },
     actions: {
-        async get() {
+        async get(queryParameters) {
             try {
-                // get method
-                let response = userPortalAxiosInstance.get(`station`);
+                let response = await userPortalAxiosInstance.get(`station`, { params: queryParameters });                
+                console.log(response);
 
                 this.response = response.data ?? null;
                 this.error = null;
