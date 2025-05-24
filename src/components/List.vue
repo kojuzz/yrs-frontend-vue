@@ -36,16 +36,18 @@
                 error-text="errorMessage"
                 @load="onLoad"
             >
-                <StationItem :list="list" />
+                <StationItem v-if="storeName === 'stationStore'" :list="list" />
+                <RouteItem v-if="storeName === 'routeStore'" :list="list" />
             </van-list>
         </div>
     </van-pull-refresh>
 </template>
 
 <script setup>
-import StationItem from "./StationItem.vue";
-import { useStoreHelper } from "@/helpers/useStoreHelper";
 import { ref } from "vue";
+import { useStoreHelper } from "@/helpers/useStoreHelper";
+import StationItem from "./StationItem.vue";
+import RouteItem from "./RouteItem.vue";
 
 const props = defineProps({
     storeName: {
@@ -54,6 +56,7 @@ const props = defineProps({
     },
 });
 
+const storeName = ref(props.storeName);
 const listStore = useStoreHelper(props.storeName);
 const queryParameters = ref({});
 const search = ref("");

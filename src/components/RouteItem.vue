@@ -5,7 +5,7 @@
         v-for="item in list"
         :key="item.slug"
     >
-        <van-cell :to="`/station/${item.slug}`">
+        <van-cell :to="`/route/${item.slug}`">
             <template #icon>
                 <img :src="item.icon" alt="" class="w-8 h-8 m-1" />
             </template>
@@ -13,7 +13,7 @@
                 <van-text-ellipsis :content="item.title" />
             </template>
             <template #label>
-                <van-text-ellipsis :content="item.description" />
+                <span>{{ item.text }}</span>
             </template>
         </van-cell>
     </van-cell-group>
