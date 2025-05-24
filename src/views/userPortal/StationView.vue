@@ -40,10 +40,15 @@
                 error-text="errorMessage"
                 @load="onLoad"
             >
-                <van-cell-group inset v-for="item in list" :key="item.slug" class="mb-3 mx-0">
-                    <van-cell>
+                <van-cell-group
+                    inset
+                    class="mb-3 mx-0"
+                    v-for="item in list"
+                    :key="item.slug"
+                >
+                    <van-cell is-link :to="`/station/${item.slug}`">
                         <template #icon>
-                            <img :src="item.icon" alt="" class="w-8 h-8 m-1">
+                            <img :src="item.icon" alt="" class="w-8 h-8 m-1" />
                         </template>
                         <template #title>
                             <van-text-ellipsis :content="item.title" />
@@ -53,7 +58,6 @@
                         </template>
                     </van-cell>
                 </van-cell-group>
-
             </van-list>
         </div>
     </van-pull-refresh>
