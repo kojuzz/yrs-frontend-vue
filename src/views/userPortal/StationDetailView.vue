@@ -13,8 +13,9 @@
         success-text="Refresh success"
         @refresh="onRefresh"
     >
+    
         <div v-if="stationDetail != null">
-            <!-- Title and Description -->
+            
             <div class="bg-theme pt-14 pb-20">
                 <h6 class="text-center text-white">
                     {{ stationDetail.title }}
@@ -25,10 +26,10 @@
             </div>
 
             <div class="p-3 relative" style="top: -74px">
-                <!-- Map -->
+            
                 <div id="map" class="h-40 mb-3 rounded-lg shadow"></div>
 
-                <!-- Tabs -->
+            
                 <van-tabs>
                     <van-tab>
                         <template #title>Clockwise</template>
@@ -59,6 +60,12 @@
                         </div>
                     </van-tab>
                 </van-tabs>
+            </div>
+        </div>
+
+        <div v-if="errorMessage != null" class="pt-14 px-3 pb-20">
+            <div class="bg-white rounded-lg shadow-md flex justify-center items-center">
+                <van-empty image="error" :description="errorMessage" class="text-center" />
             </div>
         </div>
     </van-pull-refresh>

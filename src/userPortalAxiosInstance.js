@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Notify } from "vant";
+import { showNotify } from "vant";
 
 const userPortalAxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_END_POINT,
