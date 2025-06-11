@@ -56,8 +56,9 @@ const props = defineProps({
     },
 });
 
-const storeName = ref(props.storeName);
+// const storeName = ref(props.storeName);
 const listStore = useStoreHelper(props.storeName);
+
 const queryParameters = ref({});
 const search = ref("");
 const list = ref([]);

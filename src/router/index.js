@@ -15,6 +15,12 @@ const router = createRouter({
             component: () => import('../views/userPortal/RouteView.vue'),
             meta: { showTabBar: true }
         },
+            {
+                path: '/route/:slug',
+                name: 'route.show',
+                component: () => import('../views/userPortal/RouteDetailView.vue'),
+                meta: { showTabBar: false }
+            },
         {
             path: '/station',
             name: 'station',
