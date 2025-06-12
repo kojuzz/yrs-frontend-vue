@@ -25,11 +25,9 @@
                 </p>
             </div>
 
-            <div class="p-3 relative" style="top: -74px">
-            
+            <div class="p-3 relative" style="top: -74px">            
                 <div id="map" class="h-40 mb-3 rounded-lg shadow"></div>
 
-            
                 <van-tabs>
                     <van-tab>
                         <template #title>Clockwise</template>
