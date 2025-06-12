@@ -40,6 +40,7 @@
                                     :key="route_schedule.slug"
                                     :title="route_schedule.title"
                                     :label="route_schedule.description"
+                                    :to="`/route/${route_schedule.slug}`"
                                 >
                                 </van-cell>
                             </van-cell-group>
@@ -54,6 +55,7 @@
                                     :key="route_schedule.slug"
                                     :title="route_schedule.title"
                                     :label="route_schedule.description"
+                                    :to="`/route/${route_schedule.slug}`"
                                 >
                                 </van-cell>
                             </van-cell-group>
@@ -83,7 +85,7 @@ const stationDetailStore = useStationDetailStore();
 const stationDetail = ref(null);
 const errorMessage = ref(null);
 const refreshing = ref(false);
-let map = null;
+var map = null;
 
 const fetchStationDetail = async () => {
     await stationDetailStore.get(route.params.slug);
@@ -97,7 +99,7 @@ const fetchStationDetail = async () => {
 };
 
 const initMap = () => {
-    if (map){
+    if (map != null){
         map.remove();
     }
     map = L.map("map").setView(

@@ -80,29 +80,45 @@
                 </van-grid>
 
                 <!-- Schedule and Map -->
-                <van-tabs>
+                <van-tabs @change="onTabChange">
                     <van-tab>
                         <template #title>Schedule</template>
                         <div class="py-2">
-                            <van-steps 
-                                direction="vertical" 
+                            <van-steps
+                                direction="vertical"
                                 class="rounded-lg mb-5"
-                            >                                
-                                <van-step 
-                                    v-for="station_schedule in routeDetail.station_schedules" 
+                            >
+                                <van-step
+                                    v-for="station_schedule in routeDetail.station_schedules"
                                     :key="station_schedule.slug"
                                 >
                                     <template #active-icon>
-                                        <img src="@/assets/image/station.png" alt="" class="w-6 h-6">
+                                        <img
+                                            src="@/assets/image/station.png"
+                                            alt=""
+                                            class="w-6 h-6"
+                                        />
                                     </template>
                                     <template #inactive-icon>
-                                        <img src="@/assets/image/station.png" alt="" class="w-6 h-6">
+                                        <img
+                                            src="@/assets/image/station.png"
+                                            alt=""
+                                            class="w-6 h-6"
+                                        />
                                     </template>
                                     <template #finish-icon>
-                                        <img src="@/assets/image/station.png" alt="" class="w-6 h-6">
+                                        <img
+                                            src="@/assets/image/station.png"
+                                            alt=""
+                                            class="w-6 h-6"
+                                        />
                                     </template>
-                                    <p class="text-sm text-gray-700">{{ station_schedule.title }}</p>
-                                    <p class="text-xs text-gray-500">{{ station_schedule.time }}</p>
+                                    <p class="text-sm text-gray-700">
+                                        {{ station_schedule.title }}
+                                    </p>
+                                    <p class="text-xs text-gray-500">
+                                        {{ station_schedule.time }}
+                                    </p>
                                 </van-step>
                             </van-steps>
                         </div>
@@ -110,7 +126,7 @@
                     <van-tab>
                         <template #title>Map</template>
                         <div class="py-2">
-
+                            <div id="map" class="h-96"></div>
                         </div>
                     </van-tab>
                 </van-tabs>
@@ -129,6 +145,38 @@
             </div>
         </div>
     </van-pull-refresh>
+
+    <van-dialog
+        v-model:show="showDialog"
+        :show-confirm-button="false"
+        :show-cancel-button="false"
+        :close-on-click-overlay="true"
+    >
+        <div class="p-3">
+            <img
+                src="@/assets/image/station.png"
+                class="w-16 h-16 mx-auto mb-4"
+            />
+            <p class="text-center text-md mb-3 text-gray-700">
+                {{ dialogStationTitle }}
+            </p>
+            <p class="text-center text-sm mb-3 text-gray-500">
+                {{ dialogStationTime }}
+            </p>
+            <div class="text-center">
+                <van-button
+                    icon="info-o"
+                    type="primary"
+                    size="small"
+                    plain
+                    color="#1CBC9B"
+                    :to="`/station/${dialogStationSlug}`"
+                >
+                    Station Information
+                </van-button>
+            </div>
+        </div>
+    </van-dialog>
 </template>
 
 <script setup>
@@ -143,19 +191,67 @@ const routeDetailStore = useRouteDetailStore();
 const routeDetail = ref(null);
 const errorMessage = ref(null);
 const refreshing = ref(false);
-let map = null;
+const showDialog = ref(false);
+const dialogStationTitle = ref(null);
+const dialogStationTime = ref(null);
+const dialogStationSlug = ref(null);
+
+var map = null;
 
 const fetchRouteDetail = async () => {
     await routeDetailStore.get(route.params.slug);
     routeDetail.value = routeDetailStore.getResponse?.data;
     errorMessage.value = routeDetailStore.getErrorMessage;
     refreshing.value = false;
-    // if (routeDetail.value != null) {
-    //     nextTick(() => {
-    //         initMap();
-    //     });
-    // }
 };
+
+const initMap = () => {
+    if (map != null) {
+        map.remove();
+    }
+    map = L.map("map").setView(
+        [
+            routeDetail.value.station_schedules[0]["latitude"],
+            routeDetail.value.station_schedules[0]["longitude"],
+        ],
+        13
+    ); // မြေပုံ ပြတဲ့နေရာ, ပုံစံ
+    // OpenStreetMap Layer
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(map);
+
+    // Icon
+    var stationMarker = L.icon({
+        iconUrl: "/src/assets/image/station-marker.png",
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32],
+    });
+
+    // Locations Markers
+    routeDetail.value.station_schedules.forEach(function (station) {
+        const marker = L.marker([station["latitude"], station["longitude"]], {
+            icon: stationMarker,
+        }).addTo(map);
+        marker.on("click", () => {
+            showDialog.value = true;
+            dialogStationTitle.value = station["title"];
+            dialogStationTime.value = station["time"];
+            dialogStationSlug.value = station["slug"];
+        });
+    });
+};
+
+const onTabChange = (index) => {
+    if (index == 1) {
+        nextTick(() => {
+            initMap();
+        });
+    }
+};
+
 const onRefresh = () => {
     fetchRouteDetail();
 };
@@ -166,16 +262,16 @@ onMounted(() => {
 </script>
 
 <style scope>
-    .origin-grid-item .van-grid-item__content {
-        border-radius: 8px 0 0 8px !important;
-    }
-    .destination-grid-item .van-grid-item__content {
-        border-radius: 0 8px 8px 0 !important;
-    }
-    .total-station-grid-item .van-grid-item__content {
-        border-radius: 8px 0 0 8px !important;
-    }
-    .traveling-time-grid-item .van-grid-item__content {
-        border-radius: 0 8px 8px 0 !important;
-    }
+.origin-grid-item .van-grid-item__content {
+    border-radius: 8px 0 0 8px !important;
+}
+.destination-grid-item .van-grid-item__content {
+    border-radius: 0 8px 8px 0 !important;
+}
+.total-station-grid-item .van-grid-item__content {
+    border-radius: 8px 0 0 8px !important;
+}
+.traveling-time-grid-item .van-grid-item__content {
+    border-radius: 0 8px 8px 0 !important;
+}
 </style>
