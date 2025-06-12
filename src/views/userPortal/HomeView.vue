@@ -76,8 +76,11 @@
 </template>
 
 <script setup>
-    import { ref } from "vue";
+    import { ref, watch } from "vue";
     import { useStationStore } from "@/stores/userPortal/stationStore";
+    import { useRouter } from "vue-router";
+
+    const router = useRouter();
 
     const stationStore = useStationStore();
     const page = ref(1);
@@ -141,6 +144,18 @@
             fetchStation();
         }
     };
+
+    watch(originStationSlug, () => {
+        if(originStationSlug.value != "" && destinationStationSlug.value != "") {
+            router.push(`route?origin_station_slug=${originStationSlug.value}&destination_station_slug=${destinationStationSlug.value}`);
+        }
+    });
+
+    watch(destinationStationSlug, () => {
+        if(originStationSlug.value != "" && destinationStationSlug.value != "") {
+            router.push(`route?origin_station_slug=${originStationSlug.value}&destination_station_slug=${destinationStationSlug.value}`);
+        }
+    });
     
 </script>
 <style scope></style>

@@ -62,7 +62,8 @@
                 <!-- Total Stations and Traveling Time -->
                 <van-grid :border="false" :column-num="2" class="mb-5">
                     <van-grid-item class="total-station-grid-item">
-                        <p class="text-sm text-center text-theme mb-1">
+                        <van-icon name="shop-o" size="16" />
+                        <p class="text-sm text-center text-theme m-1">
                             Total Stations
                         </p>
                         <p class="text-xs text-center text-gray-700 mb-1">
@@ -70,7 +71,8 @@
                         </p>
                     </van-grid-item>
                     <van-grid-item class="traveling-time-grid-item">
-                        <p class="text-sm text-center text-theme mb-1">
+                        <van-icon name="clock-o" size="16" />
+                        <p class="text-sm text-center text-theme m-1">
                             Traveling Time
                         </p>
                         <p class="text-xs text-center text-gray-700 mb-1">
@@ -113,10 +115,10 @@
                                             class="w-6 h-6"
                                         />
                                     </template>
-                                    <p class="text-sm text-gray-700">
+                                    <p class="text-sm text-gray-700 ml-2">
                                         {{ station_schedule.title }}
                                     </p>
-                                    <p class="text-xs text-gray-500">
+                                    <p class="text-xs text-gray-500 ml-2">
                                         {{ station_schedule.time }}
                                     </p>
                                 </van-step>
@@ -199,7 +201,7 @@ const dialogStationSlug = ref(null);
 var map = null;
 
 const fetchRouteDetail = async () => {
-    await routeDetailStore.get(route.params.slug);
+    await routeDetailStore.get(route.params.slug, route.query.origin_station_slug, route.query.destination_station_slug);
     routeDetail.value = routeDetailStore.getResponse?.data;
     errorMessage.value = routeDetailStore.getErrorMessage;
     refreshing.value = false;

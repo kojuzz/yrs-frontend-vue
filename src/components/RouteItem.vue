@@ -5,7 +5,7 @@
         v-for="item in list"
         :key="item.slug"
     >
-        <van-cell :to="`/route/${item.slug}`">
+        <van-cell :to="`/route/${item.slug}?${queryString}`">
             <template #icon>
                 <img :src="item.icon" alt="" class="w-8 h-8 m-1" />
             </template>
@@ -20,12 +20,21 @@
 </template>
 
 <script setup>
+    import { ref, onMounted } from "vue";
+
     const props = defineProps({
         list: {
             type: Array,
             required: true,
         },
+        queryParameters: {
+            type: Object,
+            required: true,
+        },
     });
+    const list = ref(props.list);
+    const queryParameters = ref(props.queryParameters);
+    const queryString = new URLSearchParams(queryParameters.value).toString();
 </script>
 
 <style scoped></style>

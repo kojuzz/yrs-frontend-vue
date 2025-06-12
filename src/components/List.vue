@@ -37,7 +37,7 @@
                 @load="onLoad"
             >
                 <StationItem v-if="storeName === 'stationStore'" :list="list" />
-                <RouteItem v-if="storeName === 'routeStore'" :list="list" />
+                <RouteItem v-if="storeName === 'routeStore'" :list="list" :query-parameters="props.queryParameters" />
             </van-list>
         </div>
     </van-pull-refresh>
@@ -54,12 +54,15 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    queryParameters: {
+        type: Object,
+        required: true,
+    },
 });
 
 // const storeName = ref(props.storeName);
 const listStore = useStoreHelper(props.storeName);
-
-const queryParameters = ref({});
+const queryParameters = ref(props.queryParameters);
 const search = ref("");
 const list = ref([]);
 const page = ref(1);
