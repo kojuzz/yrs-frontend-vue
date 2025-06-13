@@ -76,7 +76,7 @@
 <script setup>
 import { nextTick, onMounted, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { useStationDetailStore } from "@/stores/userPortal/stationDetailStore";
+import { useStationDetailStore } from "@/stores/stationDetailStore";
 
 const onClickLeft = () => history.back();
 const router = useRouter();

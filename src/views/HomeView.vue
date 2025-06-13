@@ -121,8 +121,8 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { useStationStore } from "@/stores/userPortal/stationStore";
-import { useMarkerStore } from "@/stores/userPortal/markerStore";
+import { useStationStore } from "@/stores/stationStore";
+import { useMarkerStore } from "@/stores/markerStore";
 
 const router = useRouter();
 

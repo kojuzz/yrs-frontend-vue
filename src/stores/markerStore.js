@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import userPortalAxiosInstance from '@/userPortalAxiosInstance'
+import axiosInstance from '@/axiosInstance'
 
-export const useRouteDetailStore = defineStore("routeDetailStore", {
+export const useMarkerStore = defineStore("markerStore", {
     state: () => ({ 
         response: null, 
         error: null,
@@ -15,15 +15,14 @@ export const useRouteDetailStore = defineStore("routeDetailStore", {
         getErrors: (state) => state.errors,
     },
     actions: {
-        async get(slug, origin_station_slug = null, destination_station_slug = null) {
+        async get(north_east_latitude, north_east_longitude, south_west_latitude, south_west_longitude) {
             try {
-                let response = await userPortalAxiosInstance.get(`route/${slug}?origin_station_slug=${origin_station_slug}&destination_station_slug=${destination_station_slug}`);
+                let response = await axiosInstance.get(`station-by-region?north_east_latitude=${north_east_latitude}&north_east_longitude=${north_east_longitude}&south_west_latitude=${south_west_latitude}&south_west_longitude=${south_west_longitude}`);
                 this.response = response.data ?? null;
                 this.error = null;
                 this.errorMessage = null;
                 this.errors = [];
             } catch (error) {
-                console.log(error);
                 this.response = null;
                 this.error = error;
                 this.errorMessage = error?.response?.data?.message ?? null;
