@@ -48,7 +48,7 @@
                     type="primary"
                     native-type="submit"
                     color="#1CBC9B"
-                    :loading="loading"
+                    :loading="submitBtnLoading"
                 >
                     Register
                 </van-button>
@@ -59,8 +59,11 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { useRegisterStore } from "@/stores/registerStore";
+import { showSuccessToast } from "vant";
 
+const router = useRouter();
 const registerStore = useRegisterStore();
 
 const onClickLeft = () => history.back();
@@ -73,18 +76,16 @@ const errors = ref({
     email: "",
     password: "",
 });
-const loading = ref(false);
+const submitBtnLoading = ref(false);
 
 const onSubmit = async (values) => {
-    loading.value = true;
+    submitBtnLoading.value = true;
     errors.value = {
         name: "",
         email: "",
         password: "",
     };
     await registerStore.store(values.name, values.email, values.password);
-    console.log(registerStore.getResponse);
-    console.log(registerStore.getError);
     
     if (registerStore.getErrorMessage) {
         if (registerStore.getErrors) {
@@ -102,10 +103,15 @@ const onSubmit = async (values) => {
         }
     } else {
         if (registerStore.getResponse?.is_verified) {
+            ls.set("__access-token", registerStore.getResponse?.data.access_token);
+            showSuccessToast(registerStore.getResponse?.message);
+            router.push("profile");
         } else {
+            ls.set("__otp-token", registerStore.getResponse?.data.otp_token);
+            router.push("/two-step-verification");
         }
     }
-    loading.value = false;
+    submitBtnLoading.value = false;
 };
 </script>
 
