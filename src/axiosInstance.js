@@ -20,6 +20,7 @@ const axiosInstance = axios.create({
 // Request Interceptor
 axiosInstance.interceptors.request.use(
     function (config) {
+        config.headers.Authorization = `Bearer ${ls.get("__access-token")}`;
         return config;
     }, 
     function (error) {

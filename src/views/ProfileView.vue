@@ -75,7 +75,7 @@ import { useRouter, useRoute } from "vue-router";
 import { useProfileStore } from "@/stores/profileStore";
 import { useGeneralStore } from "@/stores/generalStore";
 import { useLogoutStore } from "@/stores/logoutStore";
-import { showSuccessToast } from 'vant';
+import { showSuccessToast, showConfirmDialog } from "vant";
 
 const onClickLeft = () => history.back();
 
@@ -102,20 +102,32 @@ onMounted(() => {
 
 const onLogout = async () => {
     logoutBtnLoading.value = true;
-    await logoutStore.store();
-    if(logoutStore.getErrorMessage == null) {
-        ls.remove('__access-token');
-        showSuccessToast(logoutStore.getResponse?.message);
-        logoutBtnLoading.value = false;
-        router.push("/");
-    }
+    
+    showConfirmDialog({
+        title: "Logout",
+        message: "Are you sure you want to logout?",
+        cancelButtonText: "Cancel",
+        confirmButtonText: "Confirm",
+        confirmButtonColor: "#1CBC9B",
+    })
+        .then(async () => {
+            await logoutStore.store();
+            if (logoutStore.getErrorMessage == null) {
+                ls.remove("__access-token");
+                showSuccessToast(logoutStore.getResponse?.message);
+                logoutBtnLoading.value = false;
+                router.push("/");
+            }
+        })
+        .catch(() => {
+            logoutBtnLoading.value = false;            
+        });
 };
 
 const onRefresh = () => {
     fetchProfile();
     refreshing.value = false;
 };
-
 </script>
 
 <style scoped></style>
