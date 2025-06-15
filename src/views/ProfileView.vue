@@ -52,6 +52,17 @@
             </div>
         </div>
         <div class="p-3">
+            <van-cell-group inset class="mb-3 mx-0">
+                <van-cell is-link to="/change-password">
+                    <template #title>
+                        <div class="flex items-center">
+                            <van-icon name="shield-o" class="text-lg mr-1" />
+                            <span>Change Password</span>
+                        </div>
+                    </template>
+                </van-cell>
+            </van-cell-group>
+
             <div v-if="profile != null">
                 <van-button
                     type="default"
@@ -77,8 +88,6 @@ import { useGeneralStore } from "@/stores/generalStore";
 import { useLogoutStore } from "@/stores/logoutStore";
 import { showSuccessToast, showConfirmDialog } from "vant";
 
-const onClickLeft = () => history.back();
-
 const router = useRouter();
 const route = useRoute();
 const profileStore = useProfileStore();
@@ -102,7 +111,7 @@ onMounted(() => {
 
 const onLogout = async () => {
     logoutBtnLoading.value = true;
-    
+
     showConfirmDialog({
         title: "Logout",
         message: "Are you sure you want to logout?",
@@ -120,7 +129,7 @@ const onLogout = async () => {
             }
         })
         .catch(() => {
-            logoutBtnLoading.value = false;            
+            logoutBtnLoading.value = false;
         });
 };
 

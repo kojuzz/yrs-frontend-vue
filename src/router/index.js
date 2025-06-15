@@ -58,12 +58,12 @@ const router = createRouter({
             component: () => import('../views/ProfileView.vue'),
             meta: { showTabBar: true }
         },
-        // {
-        //     path: '/change-password',
-        //     name: 'change-password',
-        //     component: () => import('../views/ChangePasswordView.vue'),
-        //     meta: { showTabBar: true, requiresAuth: true }
-        // },
+        {
+            path: '/change-password',
+            name: 'change-password',
+            component: () => import('../views/ChangePasswordView.vue'),
+            meta: { showTabBar: false, requiresAuth: true }
+        },
     ],
 });
 
