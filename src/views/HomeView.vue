@@ -77,7 +77,7 @@
 
         <!-- Map -->
         <div class="h-screen">
-            <div id="map" class="h-4/6 rounded-lg shadow-md"></div>
+            <div id="map" class="h-4/6 rounded-lg shadow-md z-0"></div>
         </div>
     </div>
 
