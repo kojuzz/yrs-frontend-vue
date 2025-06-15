@@ -22,6 +22,8 @@
                         Please Enter the OTP in the field below to verify.
                     </p>
                 </div>
+
+                <!-- OTP Input Field -->
                 <div class="pb-3">
                     <van-password-input
                         :value="code"
@@ -36,6 +38,20 @@
                         @blur="showKeyboard = false"
                     />
                 </div>
+
+                <!-- Resend OTP Button -->
+                <div class="text-center pb-3">
+                    <van-button 
+                        type="default" 
+                        plain 
+                        size="small"
+                        :loading="resendOTPBtnLoading"
+                        loading-text="Loading..."
+                        @click="onResendOTP"
+                    >
+                        Resend OTP
+                    </van-button>
+                </div>
             </div>
             <div class="my-4">
                 <van-button
@@ -46,7 +62,7 @@
                     color="#1CBC9B"
                     :loading="submitBtnLoading"
                 >
-                    Verify
+                    Confirm
                 </van-button>
             </div>
         </van-form>
@@ -58,9 +74,12 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useTwoStepVerificationStore } from "@/stores/twoStepVerificationStore";
 import { showSuccessToast } from "vant";
+import { useResendOTPStore } from "@/stores/resendOTPStore";
+import { showNotify } from 'vant';
 
 const router = useRouter();
 const twoStepVerificationStore = useTwoStepVerificationStore();
+const resendOTPStore = useResendOTPStore();
 const otp_token = ls.get("__otp-token");
 const code = ref("");
 
@@ -71,6 +90,8 @@ const errors = ref({
 
 const submitBtnLoading = ref(false);
 const showKeyboard = ref(false);
+
+const resendOTPBtnLoading = ref(false);
 
 const onSubmit = async (values) => {
     submitBtnLoading.value = true;
@@ -101,6 +122,20 @@ const onSubmit = async (values) => {
     }
 
     submitBtnLoading.value = false;
+};
+
+const onResendOTP = async () => {
+    resendOTPBtnLoading.value = true;
+    await resendOTPStore.store(otp_token);
+    if(resendOTPStore.getErrorMessage == null) {
+        ls.set('__otp-token', resendOTPStore.getResponse?.data.otp_token);
+        showNotify({ 
+            type: 'success', 
+            message: resendOTPStore.getResponse?.message, 
+            position: 'bottom' 
+        });
+    }
+    resendOTPBtnLoading.value = false;
 };
 
 const onClickLeft = () => history.back();

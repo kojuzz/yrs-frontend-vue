@@ -50,7 +50,7 @@
                     color="#1CBC9B"
                     :loading="submitBtnLoading"
                 >
-                    Register
+                    Confirm
                 </van-button>
             </div>
         </van-form>
