@@ -1,7 +1,121 @@
 <template>
     <van-nav-bar title="Profile" :fixed="true" />
-    <main>Profile Page</main>
+    <div class="pt-[46px]"></div>
+    <van-pull-refresh
+        v-model="refreshing"
+        pulling-text="Pull to refresh"
+        loosing-text="Release to refresh"
+        loading-text="Loading..."
+        success-text="Refresh success"
+        @refresh="onRefresh"
+    >
+        <div
+            v-if="!isAuthenticated"
+            class="bg-theme rounded-b-lg shadow-sm p-3 flex justify-start items-center"
+        >
+            <img
+                src="@/assets/image/user.png"
+                alt=""
+                class="w-14 h-14 p-1 bg-gray-100 rounded-lg"
+            />
+            <div class="ml-3">
+                <van-button
+                    icon="contact-o"
+                    type="default"
+                    plain
+                    size="small"
+                    class="rounded-lg border-none"
+                    to="/login"
+                >
+                    Create Account or Login
+                </van-button>
+            </div>
+        </div>
+
+        <div
+            v-if="profile != null"
+            class="bg-theme rounded-b-lg shadow-sm p-3 flex justify-start items-center"
+        >
+            <img
+                src="@/assets/image/user.png"
+                alt=""
+                class="w-14 h-14 p-1 bg-gray-100 rounded-lg"
+            />
+            <div class="ml-3">
+                <h6 class="text-sm text-white">{{ profile.name }}</h6>
+                <p class="text-xs text-white">{{ profile.email }}</p>
+                <span
+                    class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset"
+                >
+                    {{ profile.wallet_balence }}
+                </span>
+            </div>
+        </div>
+        <div class="p-3">
+            <div v-if="profile != null">
+                <van-button
+                    type="default"
+                    plain
+                    block
+                    class="rounded-lg border-none"
+                    :loading="logoutBtnLoading"
+                    loading-text="Loading..."
+                    @click="onLogout"
+                >
+                    Logout
+                </van-button>
+            </div>
+        </div>
+    </van-pull-refresh>
 </template>
-  
-<script setup></script>
+
+<script setup>
+import { nextTick, onMounted, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useProfileStore } from "@/stores/profileStore";
+import { useGeneralStore } from "@/stores/generalStore";
+import { useLogoutStore } from "@/stores/logoutStore";
+import { showSuccessToast } from 'vant';
+
+const onClickLeft = () => history.back();
+
+const router = useRouter();
+const route = useRoute();
+const profileStore = useProfileStore();
+const logoutStore = useLogoutStore();
+const profile = ref(null);
+const refreshing = ref(false);
+const logoutBtnLoading = ref(false);
+
+const generalStore = useGeneralStore();
+const isAuthenticated = generalStore.getIsAuthenticated;
+
+const fetchProfile = async () => {
+    await profileStore.get();
+    profile.value = profileStore.getResponse?.data;
+    refreshing.value = false;
+};
+
+onMounted(() => {
+    fetchProfile();
+});
+
+const onLogout = async () => {
+    logoutBtnLoading.value = true;
+    await logoutStore.store();
+    if(logoutStore.getErrorMessage == null) {
+        ls.remove('__access-token');
+        showSuccessToast(logoutStore.getResponse?.message);
+        logoutBtnLoading.value = false;
+        router.push("/");
+    }
+};
+
+const onRefresh = () => {
+    fetchProfile();
+    refreshing.value = false;
+};
+
+</script>
+
 <style scoped></style>
