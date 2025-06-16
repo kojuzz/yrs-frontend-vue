@@ -1,13 +1,15 @@
 import './assets/css/main.css'
 import 'vant/lib/index.css';
+import 'viewerjs/dist/viewer.css';
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { Tabbar, TabbarItem, NavBar, List, PullRefresh, Cell, CellGroup, Search, Button, TextEllipsis, Tab, Tabs, Empty, Grid, GridItem, Icon, Step, Steps, Dialog, Popup, Picker, Field, Form, PasswordInput, NumberKeyboard, Divider } from 'vant';
+import { Tabbar, TabbarItem, NavBar, List, PullRefresh, Cell, CellGroup, Search, Button, TextEllipsis, Tab, Tabs, Empty, Grid, GridItem, Icon, Step, Steps, Dialog, Popup, Picker, Field, Form, PasswordInput, NumberKeyboard, Divider, Tag } from 'vant';
 
 import App from './App.vue'
 import router from './router'
 import SecureLs from "secure-ls";
+import Viewer from 'v-viewer';
 
 window.ls = new SecureLs({
     encodingType: import.meta.env.VITE_LS_ENCODING_TYPE,
@@ -45,6 +47,9 @@ app.use(Form);
 app.use(PasswordInput);
 app.use(NumberKeyboard);
 app.use(Divider);
+app.use(Tag);
+
+app.use(Viewer);
 
 app.use(router);
 

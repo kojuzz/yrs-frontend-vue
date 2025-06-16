@@ -38,6 +38,7 @@
             >
                 <StationItem v-if="storeName === 'stationStore'" :list="list" />
                 <RouteItem v-if="storeName === 'routeStore'" :list="list" :query-parameters="props.queryParameters" />
+                <TopUpHistoryItem v-if="storeName === 'topUpHistoryStore'" :list="list" />
                 <WalletTransactionItem v-if="storeName === 'walletTransactionStore'" :list="list" />
             </van-list>
         </div>
@@ -49,9 +50,10 @@ import { ref } from "vue";
 import { useStoreHelper } from "@/helpers/useStoreHelper";
 import StationItem from "./StationItem.vue";
 import RouteItem from "./RouteItem.vue";
+import TopUpHistoryItem from "./TopUpHistoryItem.vue";
 import WalletTransactionItem from "./WalletTransactionItem.vue";
 
-const props = defineProps({
+const props = defineProps({ 
     storeName: {
         type: String,
         required: true,

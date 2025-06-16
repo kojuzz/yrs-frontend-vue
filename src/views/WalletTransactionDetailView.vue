@@ -18,6 +18,11 @@
             
             <div class="bg-theme pt-14 pb-20">
                 <img :src="walletTransactionDetail.type.icon" alt="" class="w-20 h-20 p-2 bg-gray-100 rounded-lg mx-auto mb-3">
+                <div class="text-center">
+                    <van-tag color="#fcfcfc" :text-color="`#${walletTransactionDetail.type.color}`" size="medium" round>
+                        {{ walletTransactionDetail.type.text }}
+                    </van-tag>
+                </div>
             </div>
 
             <div class="p-3 relative" style="top: -74px">            
