@@ -61,6 +61,14 @@
                         </div>
                     </template>
                 </van-cell>
+                <van-cell is-link to="/top-up">
+                    <template #title>
+                        <div class="flex items-center">
+                            <van-icon name="photo-o" class="text-lg mr-1" />
+                            <span>Top Up</span>
+                        </div>
+                    </template>
+                </van-cell>
                 <van-cell is-link to="/top-up-history">
                     <template #title>
                         <div class="flex items-center">
