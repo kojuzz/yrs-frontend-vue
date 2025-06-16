@@ -7,7 +7,7 @@
     >
         <van-cell :to="`/wallet-transaction/${item.trx_id}`">
             <template #icon>
-                <img :src="item.icon" alt="" class="w-8 h-8 m-1" />
+                <img :src="item.icon" alt="" class="w-8 h-8 mr-2 mt-1" />
             </template>
             <template #title>
                 <van-text-ellipsis :content="item.trx_id" />
