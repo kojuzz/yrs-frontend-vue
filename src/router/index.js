@@ -88,6 +88,18 @@ const router = createRouter({
             component: () => import('../views/TopUpHistoryDetailView.vue'),
             meta: { showTabBar: false, requiresAuth: true }
         },
+        {
+            path: '/ticket',
+            name: 'ticket',
+            component: () => import('../views/TicketView.vue'),
+            meta: { showTabBar: false, requiresAuth: true }
+        },
+        {
+            path: '/ticket/:ticket_number',
+            name: 'ticket.show',
+            component: () => import('../views/TicketDetailView.vue'),
+            meta: { showTabBar: false, requiresAuth: true }
+        },
     ],
 });
 
