@@ -57,7 +57,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useTopUpStore } from "@/stores/TopUpStore";
+import { useTopUpStore } from "@/stores/topUpStore";
 import { showSuccessToast } from "vant";
 
 const router = useRouter();
