@@ -77,6 +77,7 @@
 import { nextTick, onMounted, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useStationDetailStore } from "@/stores/stationDetailStore";
+import stationMarkerUrl from '@/assets/image/station-marker.png'
 
 const onClickLeft = () => history.back();
 const router = useRouter();
@@ -118,7 +119,7 @@ const initMap = () => {
 
     // Icon
     var StationMarker = L.icon({
-        iconUrl: "/src/assets/image/station-marker.png",
+        iconUrl: stationMarkerUrl,
         iconSize: [32, 32],
         iconAnchor: [16, 32],
         popupAnchor: [0, -32],
