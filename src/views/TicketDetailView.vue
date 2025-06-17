@@ -15,7 +15,7 @@
     >
         <div v-if="ticketDetail != null">
             <div class="bg-theme pt-14 pb-20">
-                <vue-qrcode :value="qr_token" class="w-20 h-20 bg-gray-100 rounded-lg mx-auto mb-3"></vue-qrcode>
+                <vue-qrcode :value="qr_token" class="w-52 h-52 bg-gray-100 rounded-lg mx-auto mb-3"></vue-qrcode>
                 <div class="text-center">
                     <van-button 
                         type="default"
